@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Form Submission Through JS</title>
+</head>
+<body>
+    <h1 class="center">Form Submission Through JavaScript</h1>
+    <div class="form form-container center">
+        <form>
+            <label for="name">Name</label>
+            <input class="d-block fl-width" type="text" name="name" id="name">
+            <span class="errorText"></span>
+            <button class="d-block btn"type="submit">Submit</button>
+        </form>
+        <a class='link' href="./index.html">Submit form through Form</a>
+    </div>
+    <div class="result d-flex">
+    </div>
+    <script>
+        const button=document.querySelector('.btn');
+        const input= document.querySelector('#name');
+        const result= document.querySelector('.result');
+        const errorText=document.querySelector('.errorText');
+        
+        //Getting Data from the server
+        const fetchdata= async ()=>{
+            let data= await fetch('/api/people');
+            if(data.status!=200) throw new Error(data.statusText);
+            return data.json();
+            }
+               
+        const addData= async ()=>{
+         try{
+            let data= await fetchdata();
+            let str='';
+            for(ele of data){
+                str+=`<li>${ele.name}</li>`;
+            }
+            result.innerHTML=str;
+        }
+        catch(error){
+        result.innerText=error.message;
+        }
+        }
+
+        window.addEventListener('load',addData);
+
+        //Making a post request
+        const sendData= async ()=>{
+        let formData= input.value;   
+        const res= await fetch('/api/people',
+        {   method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                name:formData
+            })
+        });
+        if(res.status==404) throw new Error('Invalid URL')
+         return res.json();
+
+        }
+
+        button.addEventListener( 'click', async (e)=>{
+        e.preventDefault();
+        
+        try{
+           const received=await sendData();
+           if(!received.hasOwnProperty('person')) throw new Error(received.msg);
+           const {person}= received;
+           errorText.textContent='';
+           const li= document.createElement('li');
+           li.textContent=person;
+           result.appendChild(li);
+
+        }
+        catch(error){
+            
+        errorText.textContent=error.message;
+        
+        }
+        finally{
+            input.value='';
+        }
+        })
+        
+    
+    </script>
+</body>
+</html>
