@@ -3,9 +3,9 @@ const app= express();
 const path= require('path');
 
 /*Serving static Files */
-app.use(express.static("./public")) //public nam er ekta folder baniye jodi tar moddhe css file,image,js esob rekhe diyi tahole express automatically niye nebe
+app.use(express.static("./public")) // Inside a folder named as 'public', if we keep all our css,image,js files , express automatically finds these whenever required.
 
-/*Different request er jonno different response pathano hocche */
+/* Sending different response for different request */
 
 app.get('/',(req,res)=>{ 
 res.sendFile(path.resolve(__dirname,'./testFiles/boxforserver.html')) //sendFile method er moddhe absolute path dite hobe

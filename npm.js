@@ -7,8 +7,9 @@
 
     3. npm install => reinstalls the node module folder, if deleted by mistake 
 
-    4. A package is a file or directory that is described by a package.json file.
-        A module is any file or directory in the node_modules directory that can be loaded by the Node.js require() function.
+    4. A CommonJS package is a collection of modules, code and other assets. It provides the basis for convenient delivery, installation and management. Each package must provide a top level package.json file.
+
+        A module is any file that can be loaded by the Node.js require() function.
         Note: Since modules are not required to have a package.json file, not all modules are packages. Only modules that have a package.json file are also packages
 
     5. npm install <package_name> --save-dev => installs the package as dev dependency. We can also use -D flag instead of --save-dev. e.g. npm i -D nodemon chalk (Omit the < >)
@@ -30,4 +31,6 @@
     18. Suppose I want to run nodemon in a different folder without installing it globally. In that case, I shall run npx nodemon <filename> . npx helps by installing nodemon in its cache and get the job done. But later we need to clear its cache using <npx clear-npx-cache> and press y for confirmation (Omit the < >)
 
     19. npx npkill => npkill package helps uninstall multiple packages at once.
+
+   20. 
 */

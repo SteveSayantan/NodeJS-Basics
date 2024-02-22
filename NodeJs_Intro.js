@@ -32,5 +32,3 @@
 
  
 //To handle different versions of node, we use nvm (Node Version Manager) . We can have multiple versions and switch between them flawlessly as per requirement with nvm. Installation: https://youtu.be/0-y2VKISR5E , docs: https://github.com/coreybutler/nvm-windows#usage
-
-// Modules are external codes to be included in our program. There are three types of modules: 1.In-built, 2.Third-party (installed via npm) 3.custom (built by the user)

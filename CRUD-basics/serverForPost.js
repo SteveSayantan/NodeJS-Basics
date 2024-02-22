@@ -4,7 +4,7 @@ const path= require('path');
 const {people}= require('../testFiles/data')
 
 
-app.use(express.static('./Post_Method'));
+app.use(express.static('./CRUD-basics/Post_Method'));
 app.use(express.json()) //incoming http request theke json data parse kore req.body te dhokay. req.body object er moddhe parsed data ta key-value pair hisebe thakbe 
 app.use(express.urlencoded({extended:false})) //form theke incoming urlencoded data ta parse kore req.body te dhokabe, extended flag ta false thakle queryString Library diye parse korabe
 
@@ -13,7 +13,7 @@ app.post('/api/login',(req,res)=>{
     const {name}=req.body;
     // console.log(name);
     if(!name) return res.status(401).send('Please Provide Credentials');
-    res.status(200).send(`Welcome ${name}`);
+    res.status(200).send(`<h2>Welcome ${name}</h2><p><a href="/">Return to home</a>`);
 })
 
 //Sending JSON Data

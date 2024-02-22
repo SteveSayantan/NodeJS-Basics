@@ -3,7 +3,7 @@ const app= express();
 const peopleRouter= require('./Routes/peopleAfterController'); //require korlam peopleAfterController.js file ta
 const loginRouter= require('./Routes/loginAfterController'); //require korlam loginAfterController.js file ta
 
-app.use(express.static('./Post_Method'));
+app.use(express.static('./CRUD-basics/Post_Method'));
 app.use(express.json()) ; 
 app.use(express.urlencoded({extended:false})) ;
 
