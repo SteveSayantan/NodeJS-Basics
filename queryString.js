@@ -13,7 +13,7 @@ app.get('/',(req,res)=>{
 
 app.get('/api/v1/foo',(req,res)=>{ //url e foo er pore ? diye ja ja likhbo seta key value pair hisebe req.query obj er moddhe store hobe
 
-console.log(req.query); //{ name: 'steve', role: 'developer' } for req.url /api/v1/kelane?name=steve&role=developer 
+console.log(req.query); //{ name: 'steve', role: 'developer' } for req.url /api/v1/foo?name=steve&role=developer 
 
 res.send('Hello World');
 })

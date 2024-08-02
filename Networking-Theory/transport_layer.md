@@ -25,7 +25,7 @@ Transport layer lies in the devices. Its role is to take the data from the netwo
 
   - Source Port Number (2 bytes)
   - Destination Port Number (2 bytes)
-  - Length of Datagram (2 bytes)
+  - Length of Segment (2 bytes)
   - Checksum (2 bytes)
   - Data (Remaining part)
 
@@ -59,7 +59,7 @@ To see incoming packets we can use **tcpdump** command.
 
 ## 3-way Handshake
 
-A connection between a client and a server is established using the following steps:
+TCP uses it. A connection between a client and a server is established using the following steps:
 
 -  Client sends a connection request to the server, which contains a Synchronization Flag (a value inside a header) and a sequence number (random number) . 
 
@@ -81,7 +81,7 @@ A connection between a client and a server is established using the following st
 
 - A packet contains the Network Address of the source, destination and the information.
 
-- A router (belonging to ISPs) sends packets from one network to the other using Forwarding Table and Routing Table till the packet reaches its destination router. This is known as Hop-by-hop forwarding.
+- A router (belonging to ISPs) sends packets from one network to the other using Forwarding Table and Routing Table till the packet reaches its destination router. This is known as Source-to-Destination forwarding.
 
 - Control Plane creates Routing tables. Routers are considers are nodes and the links between the routers are edges of graph.
 

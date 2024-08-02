@@ -77,17 +77,20 @@ const fs= require('fs/promises')
     // console.log(stream.writableLength);          // returns the total number of bytes currently present inside internal buffer (used memory in bytes)
     // console.log(stream.writableHighWaterMark);   // returns the total size of internal buffer
 
-    const buff= Buffer.alloc(16384,63)                  // Creating a buffer of size same as internal buffer size
+    const buff= Buffer.alloc(16384,63)                  // Creating a buffer of size same as internal buffer size, filled with 63
     // console.log(buff)                                // <Buffer 3F 3F ....>
 
     const isFull= stream.write(buff);               // It writes the content of buffer to the internal buffer of stream and returns true if the internal buffer has more space available. Otherwise it returns false 
     // console.log(isFull);
 
+    // when we call stream.write(), the data , from the internal buffer of stream, is delivered to the OS. The internal buffer of the stream may or may not be completely filled.
+
 
     // We have written 16384 bytes to the internal buffer of the stream, hence it is full now
 
-
-    // Once the internal buffer of stream is full, it empties itself.  'drain' event occurs when the internal buffer is completely empty 
+    // Once the internal buffer of stream is full, further writes must be stopped until it is totally emptied. 'drain' event occurs when the internal buffer is completely empty.
+    
+    // If the internal buffer is not entirely full, data is delivered to the OS, but 'drain' event is not fired when the buffer is emptied.
 
     stream.on('drain',()=>{         // This callback is called when the internal buffer is completely empty
       console.log('We are now safe to write more')
@@ -134,6 +137,7 @@ const fs= require('fs/promises')
           console.count("Drain");
           writer();
         })
+        
         stream.on('finish',()=>{
           console.timeEnd("writeMany");
           fileHandle.close();           // closing the file handler

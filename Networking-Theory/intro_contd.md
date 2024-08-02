@@ -1,9 +1,13 @@
 ## Ports
 
 Port numbers are of 16 bits, therefore 2^16 ~ 65000 ports are available. 
-- 0 - 1023 ports (aka well-known ports) are reserved, e.g. http uses port 80
-- 1024 - 49152 ports are registered for specific applications, e.g. MongoDB uses 27017, SQL uses 1433
+- 0 - 1023 ports (aka system ports or well-known ports) are reserved, e.g. http uses port 80 . To use these ports we might require our app to be run with root priviledges (i.e. using **sudo**). Not recommended to be used.
+
+- 1024 - 49151 ports are known as User Ports. They are registered for specific applications, e.g. MongoDB uses 27017, SQL uses 1433
+
 - Remaining ones are dynamic/private ports. They are often used for temporary purposes, and applications can dynamically choose an available port from this range.
+
+- We can listen to multiple applications on a single port if each of those uses different transport layer protocol, e.g. we can run a TCP and UDP app simultaneously on port 8000 .
 
 ## Mode of Connection
 
@@ -32,44 +36,59 @@ Internet can be defined as a collection of these three.
 - Tree Topology : Combination of Bus and Star topologies
 - Mesh Topology
 
+Read important CCNA articles [here](https://www.ccnablog.com/lessons/)
+
 ## OSI Model
 
-Open Systems Interconnection Model defines how two or more computer communicate with each other. Every layer has its protocol, devices etc.
+Open Systems Interconnection Model is a theoretical model which defines how two or more computer communicate with each other. Every layer has its protocol, devices etc.
 
-It has 7 layers,
+It has 7 layers, they can be remembered as **Please Do Not Throw Sausage Pizza Away** (in bottom-up manner)
 
-- Application Layer : It contains the software which the user directly communicates with.
+- Application Layer : It contains the software which the user directly communicates with. HTTP, HTTPS,FTP, SMTP etc. are used by this layer. This layer directs the data to the correct application instace.
 
-- Presentation Layer : It translates the data in machine readable binary format (e.g. EBCDIC), compresses the data, encrypts/decrypts the data using SSL.
+- Presentation Layer : It converts the data in correct format (e.g. ASCII,GIF,JPEG), compresses the data, encrypts/decrypts the data using SSL.
 
 - Session Layer : It helps setting up and managing the connections and enables sending and receiving of data. It also terminates the connected sessions (when we are done) . It performs authentication, authorization before establishing the session. 
 
-- Transport Layer :  Uses UDP and TCP. It works in three steps:
+- Transport Layer :  Uses UDP or TCP. The header attached by this layer contains info about the port number and protocol used (UDP or TCP). It is responsible for process-to-process delivery. It takes care of the following:
+
   - Segmentation: Data received is divided into small parts aka segments. Each segment will contain the port number of the source and the destination, as well as a sequence number (for reassembling the segments in correct order)
 
   - Flow Control: It basically controls the amount of the data being transported. 
 
   - Error Control
 
-- Network Layer: It transmission of the received data segments from one computer to the other located in another network. Router is present at this layer. IP addressing done in this layer is called logical addressing. It assings the source and destination IP address to each segment and forms IP packets.
+- Network Layer: It transmission of the received data segments from one computer to the other located in another network. Router is present at this layer. IP addressing done in this layer is called logical addressing. It adds the source and destination IP address to each segment and forms IP packets.
 
-- Datalink Layer: Adds mac address to the packets, converts it in a frame. Now that frame can be used by other layers.
+- Datalink Layer: Adds MAC address to the packets, converts it in a frame. Switch is present at this layer. It also performs Access Control, Flow Control and Error Control. This layer adds both header and trailer. It performs hop-to-hop delivery.
 
-- Physical Layer: This layer contains hardwares, e.g. cables etc. It converts the bits into signals (electrical, light or radio) for transporting or vice-versa.
+  - Difference b/w Switch & Hub :
+  
+    - A Hub is not intelligent. When a data frame arrives at any of its port, it basically rebroadcasts that to all the devices connected to it. It works at physical level.
+
+    - However, a Switch is an intelligent device. It can learn and store the physical addresses of the devices that are connected to it. Whenever a data packet arrives, it is only sent to the intended device.
+      For more details, checkout [Difference b/w Switch and Hub](https://youtu.be/1z0ULvg_pW8?si=xpCqHKTsz3nkRuQI) and [What is Switch](https://youtu.be/9eH16Fxeb9o?si=pFlWXhD9abzx0ztf)
+
+- Physical Layer: This layer contains hardwares, e.g. cables etc. It converts the frames into signals (electrical, light or radio) for transporting or vice-versa.
+
+For detailed explanation, checkout [OSI & TCP/IP Models](https://youtu.be/Pje0l5r7_lk?si=aPpHofugwzi2ZHfZ) and [OSI Model](https://youtu.be/0Rb8AkTEASw?si=UIzr34D5jHXC0w7H) .
+
+Also, checkout [Encapsulation](https://youtu.be/g_-vbdv-wT4?si=843wgQrDQ4D2EZQS)
+
 
 ## TCP/IP Model
+OSI model is not used in the real world. Applications use TCP/IP model for communication.
 
-It has 5 layers such as 
+It has 4 layers such as 
 
 - Application Layer
 
 - Transport Layer
 
-- Network Layer
+- Internet Layer (or, Network Layer)
 
-- DataLink Layer
-
-- Physical Layer
+- Link Layer ( Later it was split into **DataLink Layer** and **Physical Layer** )
+ 
 
 ## Types of Protocols
 
@@ -169,3 +188,11 @@ When we enter **google.com** , DNS is used by HTTP protocol to find the IP addre
   - If not found, the Root DNS server is requested. With the received IP addresses, TLD server is requested and the required IP address is found.
 
 - We can use `dig` command for interrogating DNS name servers. e.g. `dig facebook.com` to query facebook DNS servers.
+
+## Theoretical Topics
+
+- HTTP (Working and general idea about message format, Proxy server)
+- HTTPS
+- FTP
+- DNS
+

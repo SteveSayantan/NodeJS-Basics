@@ -5,10 +5,10 @@
     It is basically the set of letters and symbols used by a writing system, with different numbers assigned to each character.
     Two of the most commonly used character sets are: Unicode and ASCII
 
-    Unicode: It is a standard for representing and encoding characters in most of the writing systems worldwide. It defines 144,697 characters.
+    Unicode: It is a standard for representing and encoding characters in most of the writing systems worldwide. It defines 144,697 characters. Range is 0 - 1114111 (0x10FFFF). 
              E.g. 's' gets assigned number 115.
 
-    ASCII: It stands for American Standard Code for Information Interchange. It defines only 128 characters only. 
+    ASCII: It stands for American Standard Code for Information Interchange. It defines only 128 characters only. Range is 0-127.
            Since it's just a subset of Unicode, it's characters have the same number as Unicode ('s' is assigned 115)
 
 Character Encoding:
@@ -19,6 +19,21 @@ Character Encoding:
 
     E.g. 's' is encoded in 'utf-8' as 0111 0011 (i.e. 8-bit binary equivalent of 115)
     Needless to say, ASCII characters have the same encoded value as the corresponding Unicode Characters.
+
+    UTF-16
+    -------
+    In UTF-16 encoding, every code unit is exact 16 bits long. This means there are a maximum of 2^16, or 65536 possible characters representable as single UTF-16 code units. 
+    This character set is called the basic multilingual plane (BMP), and includes the most common characters like the Latin, Greek, Cyrillic alphabets, as well as many East Asian characters. 
+
+    Each code unit can be written in a string with \u followed by exactly four hex digits, e.g. 
+
+        0x0404 (1028 in decimal) represents epsilon i.e. String.fromCharCode(0x0404) ==> ɛ
+
+        Now, instead of writing epsilon manually, we can use "\u0404" , e.g. console.log("\u0404") ==> ɛ
+    
+
+    However, the entire Unicode character set is much, much bigger than 65536. For details https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#utf-16_characters_unicode_code_points_and_grapheme_clusters
+
 
     NodeJS only understands character decoder and encoders, not image, video or any other type of decoder and encoders
 */

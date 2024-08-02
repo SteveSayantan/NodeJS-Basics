@@ -75,33 +75,97 @@ const fileReader= async ()=>{
 // A Better Approach
 
     async function readWrite_efficient (){
+
         try {
+
             const fileHandleRead= await fs.open('test_src.txt','r');
-            const fileHandleWrite= await fs.open('test_dest.txt','w');         
+            const fileHandleWrite= await fs.open('test_dest.txt','w');
 
             const reader= fileHandleRead.createReadStream();
             const writer= fileHandleWrite.createWriteStream();
+
+            
 
             reader.on('data', (chunk)=>{
                 if(!writer.write(chunk)){
                     reader.pause();         // This method pauses the readstream
                 }       
             })
-            writer.on('drain', ()=>{
+
+
+            writer.on('drain',()=>{
                 reader.resume();            // This method resumes the readstream
             })
-            reader.on('end', ()=>{
-                console.log('File closed');
-                fileHandleRead.close();
+
+
+            // also, attaching error handlers to readstream and writestream
+            reader.on('error', (err)=>{
+                console.log("Error occured in readstream: "+err.message)
             })
 
-            // with this finished function we can get notified when a stream is no longer readable, writable or has experienced an error 
-            finished(writer,            // or, a readable stream can also be used 
-                (err)=>{
-                fileHandleWrite.close();
+            writer.on('error', (err)=>{
+                console.log("Error occured in writestream: "+err.message)
             })
-           
-        } catch (error) {
+
+            
+            /* 
+                Steps to close the resources:
+                ----------------------------
+
+                1. When there is no data to read, readstream will emit 'end' event. In that case,
+
+                    a. Destroy the read stream ( Consequently, the read stream emits 'close' event ).
+
+                    b. Try to close the Read File Handler.
+
+                2. Now, listen to the 'close' event emitted by readstream and call end() on writestream ( Consequently, the writestream emits 'finish' event ).
+
+                3. Listen to the 'finish' event emitted by writestream . In that case,
+
+                    a. Destroy the write stream
+
+                    b. Try to close the Write File Handler.
+
+                
+            */
+            reader.on('end', async ()=>{
+
+                console.log('Destroying the read stream');
+                reader.destroy()
+
+                try {
+                    await fileHandleRead?.close();
+                    console.log("Closed Read File handler");
+                    
+                } catch (error) {
+                    console.log("Error occured while closing Read File handler");
+                }
+            })
+            
+            reader.on('close',()=>{
+                
+                writer.end();  
+
+            })
+
+            writer.on('finish',async ()=>{
+
+                console.log('Destroying the write stream');
+                writer.destroy()
+
+                try {
+                    await fileHandleWrite?.close();
+                    console.log("Closed Write File handler");
+                    
+                } catch (error) {
+                    console.log("Error occured while closing Write File handler");
+                }
+
+            })
+    
+        
+        } 
+        catch (error) {
             console.log(error);
         }
         

@@ -3,11 +3,11 @@
     ----------------
     It is basically an object we get from fs.createWriteStream(). It has an internal buffer of size 16384 Bytes (by default).
 
-    Now, we keep pushing chunks of data (from another buffer) to the internal buffer. When the internal buffer is filled, it pulls out all this data in one chunk and performs a write to the destination.
+    Now, we keep pushing chunks of data (from another buffer) to the internal buffer. The internal buffer keeps delivering all this data to the OS which performs a write to the destination.
     
     As a result, most of the write take place in the node.js process. Therefore, the no of writes to the file or resource (which is more costly than writing to a node process ) is reduced significantly.
 
-    Now, if we keep writing to the internal buffer without letting it empty itself or try to push some huge data into it,
+    Now, if we keep writing to the internal buffer even if it is full or try to push some huge data into it,
 
         - node will keep buffering (store in memory) that extra data until our writing is finished. This causes a spike in memory usage.
 
@@ -15,7 +15,7 @@
 
     This makes our stream inefficient.
 
-    Therefore, we should always wait for a stream to empty itself , before pushing more to it. When the stream is completely empty, 'drain' event takes place.
+    Therefore, we should always wait for a stream (fully-loaded) to empty itself , before pushing more to it. When the stream is completely empty, 'drain' event takes place.
 */
 
 /* 

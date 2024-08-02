@@ -13,7 +13,7 @@ function logger(req,res,next){ //eta holo middleware function. It takes 3 parame
    const time=new Date().getFullYear();
    console.log(method,url,time);
 
-//   res.send("Hello BC"); //middleware use korar por either seta res.send diye terminate korte hobe, or subsequent middleware e pass korte hobe using next method 
+//   res.send("Hello BC"); //middleware use korar por either seta res.send diye terminate korte hobe, or subsequent middleware e pass korte hobe using next() method 
 
    next(); //next method use kora holo karon res.send use korle oi response tai bar bar jabe, onno kichu pathano jabe na.
 }

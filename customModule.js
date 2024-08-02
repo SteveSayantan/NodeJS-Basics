@@ -7,7 +7,7 @@ function average(arr) {
     return sum/arr.length;
     
 }
-// module.exports = average; // sudhu average function ta export korbe. Basically it is an object inside module object. 
+// module.exports = average; // sudhu average function ta export korbe. Basically `exports` is an object inside module object. 
 /* 
 module.exports= {
     name:"Steve",

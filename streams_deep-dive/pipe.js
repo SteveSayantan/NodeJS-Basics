@@ -11,7 +11,7 @@ const { pipeline } = require('node:stream'); // All the streams we create from f
     File Size Copied: 1 GB
     Memory Usage: 1 GB          // the memory usage is very high (equal to the size of the file) , therefore it is not recommended
     Execution Time: 900 ms
-    Maximum File Size Able to Copy: 2 GB        // This is only suitable for copying files within 2GB, otherwise it will give error
+    Maximum File Size Able to Copy: 2 GB        // readFile() is suitable for copying files within 2GB, otherwise it may give error (if the file is too big to fit in the returned buffer)
 
     
 
@@ -43,7 +43,7 @@ async function readWrite_v2(){
 
         while (byteSize!=0) {                               // keep going until bytes read is 0
             
-            const data= await srcHandler.read()            // This method reads data from file and stores in a buffer (default size 16384 bytes) i.e. we get 16KB of data if it is executed once. 
+            let data= await srcHandler.read()            // This method reads data from file and stores in a buffer (default size 16384 bytes) i.e. we get 16KB of data if it is executed once. 
             // console.log(data.bytesRead);                 // the number of bytes read
             // console.log(data.buffer)                     // the buffer containing data
             byteSize= data.bytesRead;                       //it is zero, when end-of-file is reached
@@ -59,6 +59,7 @@ async function readWrite_v2(){
                 const newBuffer= Buffer.alloc(indexOfNotFilled)          //e.g. if the index is 0, then we have two useful bytes at index i.e. 0 and 1
                 data.buffer.copy(newBuffer,0,0,indexOfNotFilled)          // Now copy the useful bytes and write to the destination
                 await destHandler.write(newBuffer);
+                break;
             }
             else{                           // in this case we can write directly
                 await destHandler.write(data.buffer);
