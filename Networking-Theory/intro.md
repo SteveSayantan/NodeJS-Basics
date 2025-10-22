@@ -23,7 +23,7 @@ A packet contains a *source* , *destination*, and the *information* to be transf
 
 If we have millions of computers or millions of other networks, it will be really impractical to try to use *switches* and connect millions of cable to connect all these computers.
 
-We add a layer on top of the switches i.e. *routers* . Now these routers can be connected together using cables. Router decides which of the connected devices made a particular request via Network Access Translator.
+We add a layer on top of the switches i.e. *routers* . Now these routers can be connected together using cables. Router decides which of the connected devices made a particular request via Network Address Translator.
 
 Routers, though understand MAC address, work mainly with IP Address. Each router has an Global IP Address. It is basically a unique address assigned to a specific device on a network . 
 

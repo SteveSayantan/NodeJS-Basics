@@ -38,7 +38,7 @@ Suppose, the sender ,having IP 10.1.1.3 (say), wants to send a message to the re
 
   - But the IP address holds the logical address of the final host which might not be one hop away. Hence, host to host delivery is done by network layer and hop to hop delivery is done by datalink layer.
 
-- When the message reaches its final hop, the router realizes that it does not have the L2 address to forward this message. Therefore, it starts a broadcast message which contains the **router's IP & MAC**, **receiver IP** i.e. 23.227.38.65 and a **broadcast MAC** address which looks like FFFF.FFFF.FFFF .
+- When the message reaches its final hop, the router realizes that it does not have the MAC address to forward this message. Therefore, it starts a broadcast message which contains the **router's IP & MAC**, **receiver IP** i.e. 23.227.38.65 and a **broadcast MAC** address which looks like FFFF.FFFF.FFFF .
 
 - This broadcast message is sent to the switch (which is connected to that router) and switch sends it to all the devices connected to it (except the router).
 
@@ -46,7 +46,7 @@ Suppose, the sender ,having IP 10.1.1.3 (say), wants to send a message to the re
 
 - Now, router knows the MAC of the receiver. So, it sets the **receiver MAC** and sends the message to the switch. The switch sends it to the receiver.
 
-- The router maintains a map which associates several groups of IPs with different physical ports on the router. It also stores the MAC addresses to avoid sending broadcast messages everytime.
+- The router maintains a map which associates several groups of IPs with different physical ports on the router. It also stores the MAC addresses (in an ARP cache) to avoid sending broadcast messages everytime.
 
 
 Remember, each physical port of the router has its own MAC address.

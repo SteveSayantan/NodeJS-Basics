@@ -1,11 +1,11 @@
 ## Ports
 
 Port numbers are of 16 bits, therefore 2^16 ~ 65000 ports are available. 
-- 0 - 1023 ports (aka system ports or well-known ports) are reserved, e.g. http uses port 80 . To use these ports we might require our app to be run with root priviledges (i.e. using **sudo**). Not recommended to be used.
+- 0 - 1023 ports (aka system ports or well-known ports) are reserved, e.g. http uses port 80 . To use these ports we might require our app to be run with root privileges (i.e. using **sudo**). Not recommended to be used.
 
 - 1024 - 49151 ports are known as User Ports. They are registered for specific applications, e.g. MongoDB uses 27017, SQL uses 1433
 
-- Remaining ones are dynamic/private ports. They are often used for temporary purposes, and applications can dynamically choose an available port from this range.
+- Remaining ones are dynamic/private/ephemeral ports. They are often used for temporary purposes, and applications can dynamically choose an available port from this range.
 
 - We can listen to multiple applications on a single port if each of those uses different transport layer protocol, e.g. we can run a TCP and UDP app simultaneously on port 8000 .
 
@@ -38,76 +38,136 @@ Internet can be defined as a collection of these three.
 
 Read important CCNA articles [here](https://www.ccnablog.com/lessons/)
 
-## OSI Model
+## Layered Network Architecture
+In developing the layered architecture, the designers broken down the process of transmitting data to its most fundamental elements. They identified and collected related networking functions into discrete groups that became the layers. 
 
-Open Systems Interconnection Model is a theoretical model which defines how two or more computer communicate with each other. Every layer has its protocol, devices etc.
+Each layer defines a family of functions unique from those of the other layers. As a result, the designers created architecture that is both comprehensive and flexible. Most importantly, the OSI model allows complete interoperability between otherwise incompatible systems. 
+
+Within a single machine, each layer calls upon the services of the layer just below it. This communication is governed by an agreed-upon series of rules and conventions called protocols. The layered models that are used in modern computer networks are two; the OSI model (Open Systems Interconnection) and the TCP/IP model (Transmission Control Protocol/ Internet Protocol)
+
+### OSI Model
+
+The OSI model is a layered framework for the design of network systems that allows communication between all types of computer systems. It consists of seven separate but related layers, each of which defines a part of the process of moving information across a network.
 
 It has 7 layers, they can be remembered as **Please Do Not Throw Sausage Pizza Away** (in bottom-up manner)
 
-- Application Layer : It contains the software which the user directly communicates with. HTTP, HTTPS,FTP, SMTP etc. are used by this layer. This layer directs the data to the correct application instace.
+The upper OSI layers are almost always implemented in software; lower layers are a combination of hardware and software, except for the physical layer, which is mostly hardware.
 
-- Presentation Layer : It converts the data in correct format (e.g. ASCII,GIF,JPEG), compresses the data, encrypts/decrypts the data using SSL.
+As the data unit moves from one layer to the next, at each layer, a header and possibly a trailer, can be added to the data unit. Commonly, the trailer is added only at datalink layer.
 
-- Session Layer : It helps setting up and managing the connections and enables sending and receiving of data. It also terminates the connected sessions (when we are done) . It performs authentication, authorization before establishing the session. 
+- Application Layer : It contains the software like web browsers, email clients and messaging apps which the user directly communicates with. Protocols like HTTP, HTTPS,FTP, SMTP, DNS etc. are used by this layer. It serves as the interface between the end-user and the network services. 
 
-- Transport Layer :  Uses UDP or TCP. The header attached by this layer contains info about the port number and protocol used (UDP or TCP). It is responsible for process-to-process delivery. It takes care of the following:
+- Presentation Layer : 
+  - It converts the data into a format understandable by the receiving system. E.g. A Windows system sending text using UTF-16 might need translation for a Linux system expecting UTF-8.
+  - Reduces file size to optimize bandwidth usage.
+  - Ensures secure data transfer by encrypting information before transmission.
 
-  - Segmentation: Data received is divided into small parts aka segments. Each segment will contain the port number of the source and the destination, as well as a sequence number (for reassembling the segments in correct order)
+- Session Layer : It establishes, maintains, and synchronizes
+the interaction among communicating systems.
 
-  - Flow Control: It basically controls the amount of the data being transported. 
+  - Initiates, maintains, and gracefully closes communication sessions between applications.
+  - Dialog control: The session layer allows the communication between two processes to take place in either half duplex (one way at a time) or full-duplex (two ways at a time) mode.
+  - Synchronization: The session layer allows a process to add checkpoints, or synchronization points, to a stream of data. 
+  - It performs authentication, authorization before establishing the session.
+  - Recovers lost data due to network failures and resumes communication.
 
-  - Error Control
+- Transport Layer :  It is responsible for process-to-process delivery. Uses UDP, TCP, SCTP. The header attached by this layer contains info about the source and destination port number and protocol used (UDP or TCP). It takes care of the following:
 
-- Network Layer: It transmission of the received data segments from one computer to the other located in another network. Router is present at this layer. IP addressing done in this layer is called logical addressing. It adds the source and destination IP address to each segment and forms IP packets.
+  - Segmentation: Data received is divided into small parts aka segments. Each segment contains a sequence number (for reassembling the segments in correct order)
 
-- Datalink Layer: Adds MAC address to the packets, converts it in a frame. Switch is present at this layer. It also performs Access Control, Flow Control and Error Control. This layer adds both header and trailer. It performs hop-to-hop delivery.
+  - Connection Control: The transport layer can be either connectionless (UDP) or connection-oriented (TCP)
+
+  - Flow Control: Like the data link layer, the transport layer is responsible for flow control. 
+
+  - Error Control: Like the data link layer, the transport layer is responsible for error control. 
+
+- Network Layer: The network layer is responsible for the source-to-destination delivery of a packet. Router is present at this layer. IP addressing done in this layer is called logical addressing. It adds a header containing source and destination IP address (4 bytes each), protocol etc. to every segment and forms IP packets (64 kB).
+
+- Datalink Layer: Converts incoming data in manageable data units aka frame. The frame contains header, destination and source MAC address (6-byte each), data, CRC (in the trailer) etc. Switch or hub is present at this layer. It also performs
+
+  - Access Control: Determining which device among multiple connected devices has control over link at any given time. Protocols used are ALOHA, CSMA, CSMA/CA, CSMA/CD.
+
+  - Flow Control: When the buffer, containing incoming data until they are processed, begins to fill up, the receiver must be able to tell the sender to halt transmission until it is once again able to receive. This uses Acknowledgement frames.
+  
+  - Error Control: Error control is both error detection and error correction. It allows the receiver to inform the sender of any frames lost or damaged in transmission. It is implemented by Automatic Repeat Request (ARQ)
+
+  Some protocols for Flow and Error control are Stop-and-Wait ARQ, Go-Back-N ARQ, Selective Repeat ARQ.
+
+  Some techniques to detect and/or correct errors are Parity Check, Hamming Code, Cyclic Redundancy Check, Checksum. Among these, only Hamming Code can be used for error correction.
+  
+  - It performs hop-to-hop delivery.
 
   - Difference b/w Switch & Hub :
   
     - A Hub is not intelligent. When a data frame arrives at any of its port, it basically rebroadcasts that to all the devices connected to it. It works at physical level.
 
     - However, a Switch is an intelligent device. It can learn and store the physical addresses of the devices that are connected to it. Whenever a data packet arrives, it is only sent to the intended device.
-      For more details, checkout [Difference b/w Switch and Hub](https://youtu.be/1z0ULvg_pW8?si=xpCqHKTsz3nkRuQI) and [What is Switch](https://youtu.be/9eH16Fxeb9o?si=pFlWXhD9abzx0ztf)
+    For more details, checkout [Difference b/w Switch and Hub](https://youtu.be/1z0ULvg_pW8?si=xpCqHKTsz3nkRuQI) and [What is Switch](https://youtu.be/9eH16Fxeb9o?si=pFlWXhD9abzx0ztf)
 
-- Physical Layer: This layer contains hardwares, e.g. cables etc. It converts the frames into signals (electrical, light or radio) for transporting or vice-versa.
+- Physical Layer: This layer mostly contains hardwares, e.g. cables etc. It converts the frames into signals (electrical, light or radio) for transporting over a physical medium or vice-versa. It is concerned with:
+  - the transmission rate (the number of bits sent each second) is defined by the physical layer.
+  - physical topology of the network.
+  - encoding of bits into electrical or optical signals
+  - the mode of transmission e.g. simplex, half-duplex, full-duplex
+
 
 For detailed explanation, checkout [OSI & TCP/IP Models](https://youtu.be/Pje0l5r7_lk?si=aPpHofugwzi2ZHfZ) and [OSI Model](https://youtu.be/0Rb8AkTEASw?si=UIzr34D5jHXC0w7H) .
 
 Also, checkout [Encapsulation](https://youtu.be/g_-vbdv-wT4?si=843wgQrDQ4D2EZQS)
 
+>The IP address and a port number is collectively called socket address.
 
-## TCP/IP Model
-OSI model is not used in the real world. Applications use TCP/IP model for communication.
 
-It has 4 layers such as 
+### TCP/IP Model
+The TCPIIP protocol suite was developed prior to the OSI model. Therefore, the layers in the TCP/IP protocol suite do not exactly match those in the OSI model. The original TCP/IP protocol suite was defined as having four layers:
 
-- Application Layer
+- host-to-network (equivalent to physical + data-link layers in OSI)
+- internet  (equivalent to network layer in OSI)
+- transport
+- application (equivalent to session + presentation + application in OSI)
 
-- Transport Layer
+TCP/IP is a protocol made up of interactive modules, each of which provides a specific functionality; however, the modules are not necessarily interdependent. Whereas the OSI model specifies which functions belong to each of its layers, the layers of the TCP/IP protocol suite contain relatively independent protocols that can be mixed and matched depending on the needs of the system.
 
-- Internet Layer (or, Network Layer)
+OSI model is not used in the real world. Applications use TCP/IP model for communication. 
 
-- Link Layer ( Later it was split into **DataLink Layer** and **Physical Layer** )
- 
+## Protocols in TCP/IP
 
-## Types of Protocols
+- Physical and Data Link Layer
+  At the physical and data link layers, TCPI/IP does not define any specific protocol. It supports all the standard and proprietary protocols.
 
-Some of the web protocols under TCP/IP is:
+- Network Layer
+  At the network layer (or, more accurately, the internetwork layer), TCP/IP supports the Internetworking Protocol. IP, in turn, uses four supporting protocols: ARP, RARP, ICMP, and IGMP.
+  - Internetworking Protocol: The Internetworking Protocol (IP) is the transmission mechanism used by the TCP/IP protocols. It is an unreliable and connectionless protocol- a best-effort delivery service. *Best effort* means that IP provides no error checking or tracking. There is no relation between any two packets. It relies on a higher-level protocol to take care of all these problems. It supports two versions: IPv4 and IPv6
 
-- http : HTTP uses TCP in Transport layer. It is a stateless protocol i.e. server will not store any information about the client by default.
-  - Different http methods e.g. GET,POST,PUT etc. tell the server what to do with a particular request . 
-- DHCP
-- FTP 
-- SMTP - It is used to send emails.
-- POP3 & IMAC - They are used to receive emails.
-- SSH
-- VNC - Virtual Network Control
+  - ARP: The Address Resolution Protocol (ARP) is used to associate a logical address with a physical address.
 
-Besides TCP/IP protocols, another protocol is
+  - RARP: The Reverse Address Resolution Protocol (RARP) allows a host to discover its Internet address when it knows only its physical address.
 
-- TelNet : It enables users to connect to remote host or device using TelNet client. It uses port 23. 
+- Transport Layer: Traditionally the transport layer was represented in TCP/IP by two protocols: TCP and UDP. UDP and TCP are transport level protocols responsible for delivery of a message from a process (running program) to another process.
 
-- UDP : It is a stateless connection, data loss may occur during the lifetime of the connection.
+  - UDP: The User Datagram Protocol (UDP) is a simple,connectionless, unreliable transport protocol. In a connectionless service, the packets are sent from one party to another with no need for connection establishment or connection release. The packets may be delayed or lost or may arrive out of sequence. There is no acknowledgment either. Basically, it adds nothing to the to the services of IP except providing process-toprocess communication.
+
+  - TCP: TCP is a connection-oriented protocol; it creates a virtual connection between two TCPs to send data. In addition TCP uses flow and error control mechanisms at the transport level. It uses acknowledgement mechanism to check the safe and sound arrival of data.
+
+  - SCTP: It combines the best features of UDP and TCP. It is a reliable, message-oriented protocol. It allows multi-stream service in each connection. However, TCP uses a single stream. SCTP is used in mobile networks and for streaming media etc.
+
+- Application Layer:
+Application layer protocols under TCP/IP are:
+
+  - HTTP : HTTP uses port 80 and TCP in Transport layer. It is the main protocol used to access data on the World Wide Web (WWW). It is a stateless protocol i.e. server will not store any information about the client by default.
+    - Different http methods e.g. GET,POST,PUT etc. tell the server what to do with a particular request.
+
+  - DHCP: Dynamic Host Configuration Protocol (DHCP) is a network management protocol that automatically assigns IP addresses and other network configuration settings to devices on a network. It uses UDP as transport layer protocol.
+
+  - FTP : It is the standard mechanism provided by TCP/IP for copying a file from one host to another. It establishes two connections between the hosts. One connection is used for data transfer, the other for control. FTP uses the services of TCP. It needs two TCP connections. The well-known port 21 is used for the control connection and the well-known port 20 for the data connection.
+
+  - HTTPS: HTTPS uses SSL (Secure Sockets Layer) or TLS (Transport Layer Security) to encrypt the data being transmitted. When a browser connects to an HTTPS website, it verifies the server’s SSL/TLS certificate, issued by a trusted Certificate Authority (CA). It ensures that the data exchanged between the client and server is not altered during transmission.
+  
+  - SMTP - It is used to send emails.
+  - POP3 & IMAC - They are used to receive emails.
+  - SSH
+  - VNC - Virtual Network Control
+  - TelNet : It enables users to connect to remote host or device using TelNet client. It uses port 23. 
 
 ## Important Terms
 
@@ -120,6 +180,7 @@ Besides TCP/IP protocols, another protocol is
 - Cookie : It is a unique string stored in the client's browser. When we visit a website for the first time, cookie is set. Thereafter, the browser itself sends the associated cookie with every request to a particular server.
 
   - Third-Party Cookies: Cookies that are set for urls that we may not have visited yet (due to misuse of cookies by websites we visit).
+
 
 ## How Email Works
 
@@ -190,9 +251,6 @@ When we enter **google.com** , DNS is used by HTTP protocol to find the IP addre
 - We can use `dig` command for interrogating DNS name servers. e.g. `dig facebook.com` to query facebook DNS servers.
 
 ## Theoretical Topics
-
-- HTTP (Working and general idea about message format, Proxy server)
 - HTTPS
-- FTP
-- DNS
+
 
