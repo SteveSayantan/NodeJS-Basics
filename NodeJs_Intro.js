@@ -22,7 +22,7 @@
     Event loop is implemented in Node.js with the help of v8, libuv and all the c++ code of Node.js itself.
 
     Threads are basically lines of execution and each line can execute one thing at a time.
-    v8 and Event loop executes on the same single thread, therefore blocking one of these can cause our application to be unresponsive.
+    v8 and Event loop executes on the same single thread, therefore blocking one of these can cause our application to become unresponsive.
     libuv has a separate thread pool consisting of four threads by default, for handling files and some other specific tasks. E.g. Network requests never use thread pool.
 
         NodeJS, as it is single threaded, uses one CPU core. E.g., if we see a node process taking 100% of cpu, that means it is using the core alloted to it entirely.

@@ -25,5 +25,5 @@ app.listen(80,()=>{
 /*
 As the html file is basically a static asset, we can put it inside public folder too. In that case, there will be no need of both of the app.get methods stated above.
 
-In case of multiple HTML files to be served in public dir,the html files should be interlinked through <a href='something.html'></a> like this and the main html file should be named index.html.
+In case of multiple HTML files to be served in public dir,the html files should be interlinked through <a href='/something.html'></a> like this and the main html file should be named index.html.
 */

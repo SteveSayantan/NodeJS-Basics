@@ -11,7 +11,7 @@ const { pipeline } = require('node:stream'); // All the streams we create from f
     File Size Copied: 1 GB
     Memory Usage: 1 GB          // the memory usage is very high (equal to the size of the file) , therefore it is not recommended
     Execution Time: 900 ms
-    Maximum File Size Able to Copy: 2 GB        // readFile() is suitable for copying files within 2GB, otherwise it may give error (if the file is too big to fit in the returned buffer)
+    Maximum File Size Able to Copy: equal to buffer.constants.MAX_LENGTH        // here, buffer = require('node:buffer') . It is not an instance of Buffer class
 
     
 

@@ -236,7 +236,7 @@ When we enter **google.com** , DNS is used by HTTP protocol to find the IP addre
 
 - Hence, domain names are divided into various classes. e.g. `mail.google.com` here, **mail** is the sub-domain, **google** is the second-level domain, **com** is the top-level domain. There are multiple databases for each of these categories.
 
-- At the top, we have Root DNS servers. Checkout [this](root-servers.org) to know, who maintain these Root DNS servers. They provide the IP addresses of the TLD servers.
+- At the top, we have Root DNS servers. Checkout [this](https://root-servers.org) to know, who maintain these Root DNS servers. They provide the IP addresses of the TLD servers.
 
 - Below that, we have Top-level Domain Servers, maintained by ICANN . Examples of TLD are **com**, **org**, **net**, **edu** etc. TLD server provide the IP addresses of the actual server.
 
@@ -246,7 +246,10 @@ When we enter **google.com** , DNS is used by HTTP protocol to find the IP addre
 
   - the local cache is checked for the IP address.
   - if not found, the local DNS server is checked. Our ISPs can be our local DNS server, where all the info about our visited websites are stored.
-  - If not found, the Root DNS server is requested. With the received IP addresses, TLD server is requested and the required IP address is found.
+  - If not found, the Root DNS server is requested. In response, we get IP address of a TLD server. Then the TLD server is requested to get the IP address of the domain’s nameserver, example.com.
+  - Finally, the nameserver is queried and the IP address of the domain is received. The DNS resolver then responds to the web browser with that IP address.
+
+  - Learn more about [How DNS works](https://www.cloudflare.com/en-gb/learning/dns/what-is-dns/)
 
 - We can use `dig` command for interrogating DNS name servers. e.g. `dig facebook.com` to query facebook DNS servers.
 

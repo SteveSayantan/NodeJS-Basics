@@ -8,19 +8,28 @@
     2. We can use either Promises API or Callback API or Synchronous API to perform any operation using fs_module.
 */
 
-const fs = require("fs"); //Module include korlam
+const fs = require("node:fs"); //Module include korlam
+const path = require('node:path')
+
+
 let text = fs.readFileSync("dele.txt","utf-8") 
 //Prothom argument ta je file ke read korbo tar path, second ta oi file tar encoding type
 console.log(text);          //readfilesync function ta dele.txt ke read kore text er moddhe store korlo
 
-
-
+/* 
+    ==================================
+    Important: Relative paths will be resolved relative to the current working directory as determined by 
+    calling process.cwd() i.e.the current working directory of the Node.js process.
+    ==================================
+ */
 text= text.replace("Evening","Morning");
-// fs.writeFileSync("../Sweet2.txt",text);      // parent folder e file ta banate
-// fs.writeFileSync("Sweet2.txt",text);         //current folder e file ta banate
-// fs.writeFileSync("Sweet2.txt","Ami tomar chokher kalo chai");                //Evabe direct string diyeo lekha jay
-// fs.writeFileSync("Sweet2.txt","Ami tomar chokher kalo chai",{flag:"a"});     //Evabe third argument e "a" flag dile jodi file ta already exist kore tahole setar ja data ache setar sathe ei input ta jure jabe
+// fs.writeFileSync("../Foo.txt",text);      // parent folder e file ta banate
+// fs.writeFileSync("Foo.txt",text);         //current folder e file ta banate
+// fs.writeFileSync("Foo.txt","All I dream of your eyes");                //Evabe direct string diyeo lekha jay
+// fs.writeFileSync("Foo.txt","All I want is your time",{flag:"a"});     //Evabe third argument e "a" flag dile jodi file ta already exist kore tahole setar ja data ache setar sathe ei input ta jure jabe
 
+// Specifying relative path combined with __dirname 
+let file=fs.readFileSync(path.join(__dirname,'dele.txt'))   // this ensures the relative paths are always resolved properly irrespective of the pwd of the node process.
 
 /* 
     1. WriteFileSync function ta file create kore, jodi given location e oi nam e kono file present na thake. Thakle setar data overwrite kore notun data put korbe. Prothom argument ta jekhane file banabo tar path, second ta oi file er moddhe ki thakbe seta denote korbe

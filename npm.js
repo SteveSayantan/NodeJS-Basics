@@ -5,7 +5,7 @@
 
     2. npm uninstall <package_name> => uninstalls the package, for global package use -g flag after npm (Omit the < >)
 
-    3. npm install => reinstalls the node module folder, if deleted by mistake 
+    3. npm install => reinstalls the node module folder
 
     4. A CommonJS package is a collection of modules, code and other assets. It provides the basis for convenient delivery, installation and management. Each package must provide a top level package.json file.
 
@@ -23,12 +23,12 @@
     13. npm view <package_name> version => it shows the current version of the package 
 
     14. npx <package name> => Runs the package. We have to mention the file name if it is not the same as the one mentioned in as 'main' ( one inside package.json file)
-    15. Create a key-value pair e.g. "nodemon" :"nodemon" inside script object in package.json and write <npm run nodemon> or <npm run nodemon ./filepath> to run nodemon. (Omit the < >)
+    15. Create a key-value pair e.g. "nodemon" :"nodemon" inside script object in package.json and write `npm run nodemon` or `npm run nodemon filepath` to run nodemon.
     16. To change the default file we can write the key-value pair as "nodemon":"nodemon ./filepath" to run another file or change the value of "main" inside of package.json to the new file path
 
     17. Dev Dependencies: The dependencies we need only in development, but not in production are called dev dependencies. E.g. We shall use nodemon while development,but once the project is deployed we no longer need it.
 
-    18. Suppose I want to run nodemon in a different folder without installing it globally. In that case, I shall run npx nodemon <filename> . npx helps by installing nodemon in its cache and get the job done. But later we need to clear its cache using <npx clear-npx-cache> and press y for confirmation (Omit the < >)
+    18. Suppose I want to run nodemon in a different folder without installing it globally. In that case, I shall run `npx nodemon filename` . npx helps by installing nodemon in its cache and get the job done. But later we need to clear its cache using `npx clear-npx-cache` and press y for confirmation
 
     19. npx npkill => npkill package helps uninstall multiple packages at once.
 

@@ -105,8 +105,8 @@ Self-signed certificates are commonly used in scenarios such as home labs or int
 
 1. View certificate's content using any of the following commands:
    ```bash
-   openssl x509 -in ca.pem -text # displays certificate details.
-   openssl x509 -in ca.pem -purpose -noout -text # displays certificate details and its valid usage purposes.
+   openssl x509 -in ca.crt -text # displays certificate details.
+   openssl x509 -in ca.crt -purpose -noout -text # displays certificate details and its valid usage purposes.
    ```
 #### Generate Certificate for Server using CA
 
@@ -129,16 +129,27 @@ Self-signed certificates are commonly used in scenarios such as home labs or int
 1. Create a `extfile` with all the Subject Alternative Name (SAN). SAN lists all valid domain names or IP addresses that the certificate should be trusted for and verified by browsers and modern clients.
 
    ```bash
-   echo "subjectAltName=DNS:your-dns.record,DNS:myapp.example.com,IP:257.10.10.1" >> extfile.cnf
+   echo "subjectAltName=DNS:myapp.local,DNS:myapp.example.com,IP:257.10.10.1" >> extfile.cnf
    ```
 
-1. Generate the certificate using the CSR. It will be signed by the CA's private key. `-CAcreateserial` creates a new serial number file (by default called ca.srl) to keep track of issued certificates.
+1. Generate the certificate using the CSR. It will be signed by the CA's private key. `-CAcreateserial` creates a new serial number file (by default called `ca.srl`) to keep track of issued certificates. If we already have a `ca.srl` file, we could instead use `-CAserial ca.srl` to reuse it.
    ```bash
    openssl x509 -req -sha256 -days 365 -in cert.csr -CA ca.crt -CAkey ca-key.pem -out cert.crt -extfile extfile.cnf -CAcreateserial
    ```
    - `-req` tells OpenSSL we’re taking in a certificate signing request (CSR) as input — i.e. we’re issuing a certificate based on that request.
 
-Now, this certificate can be added to the server configuration.
+Now, this certificate (i.e. `cert.crt`) along with the server's private key (i.e. `cert-key.pem`) can be added to the server configuration.
+
+#### Certificate Formats
+
+X.509 Certificates exist in Base64 Formats **PEM (.pem, .crt, .ca-bundle)**, **PKCS#7 (.p7b, p7s)** and Binary Formats **DER (.der, .cer)**, **PKCS#12 (.pfx, p12)**.
+
+COMMAND | CONVERSION
+---|---
+`openssl x509 -outform der -in cert.pem -out cert.der` | PEM to DER
+`openssl x509 -inform der -in cert.der -out cert.pem` | DER to PEM
+`openssl pkcs12 -in cert.pfx -out cert.pem -nodes` | PFX to PEM
+
 
 ### Installing the CA as a Trusted Root CA on Client
 Since the self-signed certificate is issued by a private, custom-generated CA, the client device initially does not trust the issuer, resulting in a browser warning.
@@ -150,7 +161,7 @@ To establish trust, the private CA certificate must be manually uploaded and imp
 Assuming the path to our generated CA certificate as `C:\ca.crt`, run:
 
 ```powershell
-Import-Certificate -FilePath "C:\ca.csr" -CertStoreLocation Cert:\LocalMachine\Root
+Import-Certificate -FilePath "C:\ca.crt" -CertStoreLocation Cert:\LocalMachine\Root
 ```
 
 - Set `-CertStoreLocation` to `Cert:\CurrentUser\Root` in case we want to trust certificates only for the logged in user.

@@ -27,7 +27,7 @@ const fileManager= async ()=>{ //async function fileManager(){} likheo kora jeto
     {
     const first= await getText("testFiles/hello.txt");
     const second= await getText("testFiles/dele.txt");
-    await writeText("./swee2.txt",`Sweetu is awesome:${first} and ${second}`); //writeFile er resolve part ta undefined return kore, tai otake variable er moddhe store korlam na.
+    await writeText("./Foo.txt",`Bar is awesome:${first} and ${second}`); //writeFile er resolve part ta undefined return kore, tai otake variable er moddhe store korlam na.
     console.log(first,second);
 }
 catch(error){

@@ -16,7 +16,7 @@ customEmitter.on('scream',(name,role,age)=>{        //same event er jonno multip
 })
 
 customEmitter.emit('scream','Steve','Developer',22); //scream event ta emit korlam, ebar scream event er jonno je kaj hoar kotha chilo seta hobe. Event er nam lekhar por eivabe jota khusi argument pass korano jay.
-customEmitter.emit('scream','Sweetu','Officer',18)   // We can emit an event multiple times too. Every time ** all the callbacks associated with that particular event** will be executed.
+customEmitter.emit('scream','Random','Clerk',18)   // We can emit an event multiple times too. Every time ** all the callbacks associated with that particular event** will be executed.
 
 customEmitter.once('onlyOnce', (random)=>{           // We can create event using once() method also. But we can use that event only once.
     console.log("This is going to run once");

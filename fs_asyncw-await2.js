@@ -13,7 +13,7 @@ async function fileManager(){
      {
      const first= await readFilePromise("testFiles/hello.txt","utf-8"); //readFilePromise e callback lagbena ar, but baki argument gulo lagbe
      const second= await readFilePromise("testFiles/dele.txt","utf-8");
-     await writeFile("./swee2.txt",`Sweets are awesome:${first}&${second}`)
+     await writeFile("./Foo.txt",`Sweets are awesome:${first}&${second}`)
      console.log(first,second)
  }
  catch(error){

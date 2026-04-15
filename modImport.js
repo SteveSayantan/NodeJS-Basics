@@ -1,5 +1,4 @@
-const avg = require("./customModule.js"); //jodi same folder e file ta thake then ./ diye likhte hbe,baki path lekhar niyom same
-//avg er moddhe imported data store kora holo
+const avg = require("./customModule.js"); // To import local modules and JSON files use a relative path (e.g. ./, ./foo, ./bar/baz, ../foo) that will be resolved against the directory named by __dirname (if defined) or the current working directory.
 
  
 //console.log(avg([3,4])); call kora holo function ta. jokhn module ta sudhu average function ta export kore in that case 

@@ -22,6 +22,10 @@
     in HTTP format.
 
     Now, an HTTP message can be converted into human readable string if it is decoded using utf-8. Hence, it is not safe.
+
+    HTTP is also stateless i.e. it handles each request independently and keeps no data/state between two requests.
+
+    A server is called a web-server if it deals with HTML . For details, check https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview 
 */
 
 const http= require('node:http');   // node:http means http is a native to Node.js, we don't need to install something else to use it
@@ -63,7 +67,7 @@ server.on('request', (req,res)=>{ // req is a readable stream, res is a writable
 
 })
 
-server.listen(8000,'localhost',()=>{
+server.listen(8000,()=>{
     console.log("Server is listening on http://localhost:8000");
 })
 
@@ -83,6 +87,18 @@ server.listen(8000,'localhost',()=>{
         max=800,    -----> maximum 800 connections are allowed
         ...
     }
+
+    Content Type
+    -------------
+    
+    Content-Type header is used to specify the type of the message in the req or res body.
+
+    It accepts a media-type as value. Try sending a file in a form using thunder-client to understand the structure of the request body
+    for multipart/form-data . 
+
+    For details, https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+
+    Google about magic numbers.
 
 */
 

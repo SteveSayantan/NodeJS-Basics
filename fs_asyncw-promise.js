@@ -27,6 +27,6 @@ function writeText(path,text){
     })
 }
 getText("testFiles/dele.txt").then((result)=>console.log(result)).catch((result)=>console.log(result));
-writeText("./swee2.txt",`Sweetu is awesome:`).catch((result)=>console.log(result)); //resolve part ta lagchena tai then block tao dorkar nei
+writeText("./Foo.txt",`Bar is awesome:`).catch((result)=>console.log(result)); //resolve part ta lagchena tai then block tao dorkar nei
 
 //Remarks: It improves the code readablity but still if we want to read two files and write one file, we have to write more lines, let's see how async-await changes the scenario.

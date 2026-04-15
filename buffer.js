@@ -32,7 +32,15 @@ Character Encoding:
         Now, instead of writing epsilon manually, we can use "\u0404" , e.g. console.log("\u0404") ==> ɛ
     
 
-    However, the entire Unicode character set is much, much bigger than 65536. For details https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#utf-16_characters_unicode_code_points_and_grapheme_clusters
+    However, the entire Unicode character set is much, much bigger than 65536. Each Unicode code point can also be written in a string with \u{xxxxxx} where xxxxxx represents 1–6 hex digits.
+    e.g., console.log('\u{1F643}') ==> '🙃'
+
+    For details about Encoding: 1) https://youtu.be/tbdym9ZtepQ?si=_zVs4eHMCYZUtZ33
+    
+    2) https://youtu.be/ut74oHojxqo?si=PtOgkWk3xeu07VV1
+
+    3) https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#utf-16_characters_unicode_code_points_and_grapheme_clusters
+
 
 
     NodeJS only understands character decoder and encoders, not image, video or any other type of decoder and encoders
@@ -48,13 +56,14 @@ Buffers :
 
 */
 
-const {Buffer}= require('node:buffer')  // 'Buffer' class is available globally, therefore we can directly use 'Buffer' without importing (though not recommended) it like this.
+const buffer= require('node:buffer'); 
+const {Buffer}= buffer; // 'Buffer' class is available globally, therefore we can directly use 'Buffer' without importing it (not recommended).
 
 const buff= Buffer.alloc(10)    // With alloc() method, we allocate memory(in bytes) to our buffer. Here, allocating 10 bytes. We can not resize it later.
 
 // console.log(buff)           // <Buffer 00 00 00 00 00 00 00 00 00 00> Each digit is represented in Hexadecimal. Therefore two digits make 1byte and we have 10 of those, total 10 bytes.
 
-buff.write('sweetu','utf-8')    // write() method is used to write encoded data in buffer. We have to specify the encoding too (if omitted, it defaults to 'utf-8')
+buff.write('foo','utf-8')    // write() method is used to write encoded data in buffer. We have to specify the encoding too (if omitted, it defaults to 'utf-8')
 // <Buffer 73 77 65 65 74 75 00 00 00 00>       // 73 is 's', 77 is 'w' (in hex)
 
 
@@ -81,6 +90,8 @@ const buff4=Buffer.from("737765657475",'hex');     // <Buffer 73 77 65 65 74 75>
 buff4.toString('utf-8');                           // Now this will return the characters, decoded from the buffer using utf-8. If 'hex' is used, it returns the initial hex string
 
 
+// We can use the additional Buffer-related APIs using node:buffer module
+buffer.isUtf8(buff2);       // true ( as buff2 contains only valid UTF-8-encoded data)
 
 
 
